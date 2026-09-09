@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois=20Bernier?= <frankbernier@gmail.com>
+Date: Wed, 9 Sep 2026 12:00:00 -0400
+Subject: arm64: dts: rockchip: disable conflicting rfkill on Orange Pi 5
+ Max/Ultra
+
+rk3588-orangepi-5.dtsi assigns GPIO0_C4 to rfkill. On compact boards,
+the same GPIO is the hym8563 RTC interrupt. Disable the inherited rfkill
+node so the RTC and Bluetooth LPO clock can probe.
+
+Fixes: c600d252dc52 ("arm64: dts: rockchip: Add Orange Pi 5 Max board")
+Signed-off-by: François Bernier <frankbernier@gmail.com>
+---
+ arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi
+index 111111111111..222222222222 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi
+@@ -7,6 +7,11 @@
+ #include "rk3588-orangepi-5.dtsi"
+ 
+ / {
++	/* GPIO0_C4 is the hym8563 IRQ on compact boards. */
++	rfkill {
++		status = "disabled";
++	};
++
+ 	vcc5v0_usb30_otg: vcc5v0-usb30-otg-regulator {
+ 		compatible = "regulator-fixed";
+ 		enable-active-high;
+-- 
+Armbian
