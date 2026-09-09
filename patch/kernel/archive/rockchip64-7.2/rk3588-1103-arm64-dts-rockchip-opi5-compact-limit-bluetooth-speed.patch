@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois=20Bernier?= <frankbernier@gmail.com>
+Date: Wed, 9 Sep 2026 12:00:01 -0400
+Subject: arm64: dts: rockchip: limit Bluetooth speed on Orange Pi 5
+ Max/Ultra
+
+The AP6611S produces framing errors and HCI command timeouts at higher
+UART7 rates. Cap it at the tested 1.5 Mbaud rate.
+
+Tested on an Orange Pi 5 Max running Linux 7.2.4. The 5 Ultra has the
+same AP6611S and UART7 wiring according to its official schematic, but
+was not tested on hardware.
+
+Fixes: db1fefec31e7 ("arm64: dts: rockchip: Enable bluetooth of AP6611s on OrangePI5 Max/Ultra")
+Signed-off-by: François Bernier <frankbernier@gmail.com>
+---
+ arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi
+index 222222222222..333333333333 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-compact.dtsi
+@@ -153,6 +153,7 @@
+ 		interrupt-parent = <&gpio0>;
+ 		interrupts = <RK_PA0 IRQ_TYPE_EDGE_FALLING>;
+ 		interrupt-names = "host-wakeup";
++		max-speed = <1500000>;
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&bt_reg_on>, <&host_wake_bt>, <&bt_wake_host>;
+ 		shutdown-gpios = <&gpio4 RK_PC4 GPIO_ACTIVE_HIGH>;
+-- 
+Armbian
