@@ -53,10 +53,10 @@ function post_family_tweaks__orangepi5ultra_enable_bluetooth_service() {
 }
 
 # hci_bcm derives the firmware name from the board compatible string.
-function post_family_tweaks__orangepi5ultra_bt_firmware_symlink() {
+function post_family_tweaks_bsp__orangepi5ultra_bt_firmware_symlink() {
 	[[ "$BRANCH" == "vendor" ]] && return 0
 	display_alert "$BOARD" "Creating BT firmware symlink for hci_bcm" "info"
-	mkdir -p "$SDCARD/lib/firmware/brcm"
-	ln -sf SYN43711A0.hcd "$SDCARD/lib/firmware/brcm/BCM.xunlong,orangepi-5-ultra.hcd"
+	mkdir -p "$destination/lib/firmware/brcm"
+	ln -sf SYN43711A0.hcd "$destination/lib/firmware/brcm/BCM.xunlong,orangepi-5-ultra.hcd"
 	return 0
 }
